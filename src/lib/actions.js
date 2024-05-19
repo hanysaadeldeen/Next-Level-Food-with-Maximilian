@@ -1,6 +1,9 @@
 "use server"
 
-export default async function ShareMeal(formatData) {
+import { redirect } from "next/navigation"
+import { saveMeal } from "./meals"
+
+export async function shareMeal(formatData) {
         const meal = {
             title: formatData.get("title"),
             image: formatData.get("image"),
@@ -9,5 +12,6 @@ export default async function ShareMeal(formatData) {
             creator: formatData.get("name"),
             instructions:formatData.get("instructions")
         }
-        console.log(meal)
-    }
+    await saveMeal(meal)
+    redirect('/meals')
+}

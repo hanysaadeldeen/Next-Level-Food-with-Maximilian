@@ -1,6 +1,6 @@
+
 import sql from "better-sqlite3"
-
-
+import fs from "node:fs"
 import slugify  from "slugify"
 import xss from "xss"
 const db = sql("meals.db")
@@ -18,11 +18,37 @@ export  function getMeal(slug) {
 }
 
 
-export default function SaveMeal(meal) {
+export async function saveMeal(meal) {
     meal.slug = slugify(meal.title, { lower: true })
     meal.instructions = xss(meal.instructions)
     
-    const extention = meal.image.split(`.`).pop()
-    const fileName=`${meal.slug}.${extention}`
+    const extention = meal.image.name.split(`.`).pop()
+    const fileName = `${meal.slug}.${extention}`
+
+    const stream= fs.createWriteStream(`public/images/${fileName}`)
+
+    const bufferdImage = await meal.image.arrayBuffer()
+    
+    stream.write(Buffer.from(bufferdImage), (error) => {
+        if (error) {
+            throw new Error("saving emage failed")
+        }        
+    })
+    meal.image = `/images/${fileName}`
+    
+    db.prepare(`
+    INSERT INTO meals
+        (title,summary,instructions,creator,creator_email,image,slug)
+    VALUES (
+        @title,
+        @summary,
+        @instructions,
+        @creator,
+        @creator_email,
+        @image,
+        @slug
+        )
+    `).run(meal);
 }
+
 
