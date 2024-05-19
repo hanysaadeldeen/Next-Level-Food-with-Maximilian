@@ -46,7 +46,7 @@ export default function ImagePicker({ label, name }) {
                     className={classes.input}
                     id={name}
                     accept="imgae/png, image/jpeg"
-                    name={label}
+                    name={name}
                     onChange={handleImgae}
                     required
                 />
