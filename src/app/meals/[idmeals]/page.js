@@ -5,13 +5,23 @@ import clases from "./page.module.css"
 import Image from 'next/image'
 import {getMeal} from "@/lib/meals"
 import { notFound } from 'next/navigation'
-const MealDetailsPage = ({params}) => {
 
+export async function generateMetadata({params}) {
   const meal = getMeal(params.idmeals)
-
-  if (!meal) {
+   if (!meal) {
     notFound()
   } 
+  return {
+    title: meal.title,
+    description: meal.summary,
+  }
+}
+
+
+const MealDetailsPage = ({params}) => {
+  const meal = getMeal(params.idmeals)
+
+ 
     meal.instructions=meal.instructions.replace(/\n/g,`<br/>`)
   
   return (

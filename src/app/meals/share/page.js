@@ -5,8 +5,14 @@ import classes from './page.module.css';
 import {shareMeal} from "@/lib/actions"
 import ShareMealButton from '@/components/meals/share-meal-button';
 
-import {useFormState  } from 'react-dom'
-export default function ShareMealPage() {
+import { useFormState } from 'react-dom'
+
+const metadata = {
+    title: "Share-Meal",
+    description: "this is for learn next with maximilain",
+};
+
+const ShareMealPage=() =>{
     const [state,formAction]=useFormState(shareMeal,{message:null})
     return (
         <>
@@ -55,3 +61,5 @@ export default function ShareMealPage() {
         </>
     );
 }
+
+export default ShareMealPage

@@ -5,6 +5,12 @@ import communityIcon from '@/assets/icons/community.png';
 import eventsIcon from '@/assets/icons/events.png';
 import classes from './page.module.css';
 
+
+export const metadata = {
+  title: "Commutity",
+  description: "this is for learn next with maximilain",
+};
+
 const CommutityPage = () => {
   return (
       <>
